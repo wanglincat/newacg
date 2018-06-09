@@ -1,9 +1,10 @@
 #encoding: utf-8
 
 from flask_script import Manager
-from flask_migrate import Migrate,MigrateComman
+from flask_migrate import Migrate,MigrateCommand
 from newanimation import app
 from exts import db
+from models import User
 
 manager = Manager(app)
 
@@ -11,7 +12,7 @@ manager = Manager(app)
 migrate = Migrate(app,db)
 
 #添加迁移脚本命令
-manager.add_command('db',MigrateComman)
+manager.add_command('db',MigrateCommand)
 
 if __name__=="__main__":
     manager.run()
