@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,session
 import config
 from models import User
 from exts import db
@@ -18,7 +18,16 @@ def login():
     if request.method=='GET':
         return render_template('login.html')
     else:
-        pass
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user=User.query.filter(User.username==username,User.password==password).first()
+        if user:
+            session['user_id']=user.id
+            session.permanent=True
+            return redirect(url_for('index'))
+        else:
+            return u'账号密码错误，请核对再说'
+
 
 @app.route('/regist/',methods=['GET','POST'])
 def regist():
