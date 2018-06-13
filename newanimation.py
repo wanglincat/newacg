@@ -4,10 +4,13 @@ from flask import Flask,render_template,request,redirect,url_for,session
 import config
 from models import User
 from exts import db
+from decoration import login_requried
+
 
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
+
 
 @app.route('/')
 def index():
@@ -49,6 +52,14 @@ def regist():
                 db.session.add(user)
                 db.session.commit()
                 return redirect(url_for('login'))
+
+@app.route('/acgcommit/')
+@login_requried
+def acgcommit():
+    if request.method=='GET':
+        return render_template('acgcommit.html')
+    else:
+        pass
 
 
 
